@@ -1,4 +1,5 @@
-namespace YamlPrompt.Cli;
+﻿namespace YamlPrompt.Model;
+
 public interface ICommand
 {
     string Key { get; }

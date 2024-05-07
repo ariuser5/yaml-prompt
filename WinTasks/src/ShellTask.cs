@@ -1,10 +1,13 @@
 ﻿using YamlPrompt.Model;
 
-namespace WinCommands;
+namespace WinTasks;
 
-public class ShellCommand : ICommand
+public class ShellTask : ITask
 {
-    public string Key => throw new NotImplementedException();
+    public const string TaskKey = "shell";
+    
+    
+    public string TypeKey => TaskKey;
 
     public object Execute(params string[] parameters)
     {

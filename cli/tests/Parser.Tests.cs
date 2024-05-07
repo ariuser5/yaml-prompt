@@ -1,6 +1,4 @@
-using YamlPrompt.Cli;
-
-namespace cli.tests;
+namespace YamlPrompt.Cli.Tests;
 
 public class ParserTests
 {

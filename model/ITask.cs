@@ -1,7 +1,7 @@
 ﻿namespace YamlPrompt.Model;
 
-public interface ICommand
+public interface ITask
 {
-    string Key { get; }
+    string TypeKey { get; }
     object Execute(params string[] parameters);
 }

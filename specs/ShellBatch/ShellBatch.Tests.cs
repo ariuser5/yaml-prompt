@@ -1,4 +1,5 @@
 using Moq;
+using WinTasks;
 using YamlPrompt.Specs.AppInterface;
 
 namespace YamlPrompt.Specs.ShellCommands;
@@ -19,28 +20,28 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
     [InlineData("- shell: \"echo '{0}' >> '{1}'\"")]
     [InlineData(@"
         - shell:
-            inputType: command
+            inputType: batch
             input: ""echo '{0}' >> '{1}""'
     ")]
     [InlineData(@"
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '{0}' >> '{1}""'
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
+        steps:
           - shell:
-              inputType: command
+              inputType: batch
               input: ""echo '{0}' >> '{1}""'
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
+        steps:
           - type: shell
-            inputType: command
+            inputType: batch
             input: ""echo '{0}' >> '{1}""'
     ")]
     public void OneCommand_WithInlineShellCommand_RunsTheCommand(string yamlInput)
@@ -62,28 +63,28 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
     [InlineData("- shell: {script-file}")]
     [InlineData(@"
         - shell:
-            inputType: script
+            inputType: batch
             input: '{script-file}'
     ")]
     [InlineData(@"
         - type: shell
-          inputType: script
+          inputType: batch
           input: '{script-file}'
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
+        steps:
           - shell:
-              inputType: script
+              inputType: batch
               input: '{script-file}'
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
+        steps:
           - type: shell
-            inputType: script
+            inputType: batch
             input: '{script-file}'
     ")]
     public void OneCommand_WithScript_RunsTheCommand(string yamlInput)
@@ -94,7 +95,7 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         string expectedKey = Guid.NewGuid().ToString();
         string expectedFile = base.CreateFile("output.txt");
         string script = string.Format(scriptTemplate, expectedKey, expectedFile);
-        string scriptFile = base.CreateFile("script.sh", script);
+        string scriptFile = base.CreateFile("script.bat", script);
         string yamlCommand = yamlInput.Replace("{script-file}", scriptFile);
         
         // Act
@@ -111,16 +112,16 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         - shell:
             input: ""echo '2' >> '{0}'""
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '3' >> '{0}'""
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
+        steps:
           - shell: ""echo '1' >> '{0}'""
           - shell:
-              inputType: command
+              inputType: batch
               input: ""echo '2' >> '{0}'""
           - type: shell
             input: ""echo '3' >> '{0}'""
@@ -145,25 +146,25 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
     
     [Theory]
     [InlineData(@"
-        - shell: ""script1.sh""
+        - shell: ""script1.bat""
         - shell:
-            inputType: script
-            input: ""script2.sh""
+            inputType: batch
+            input: ""script2.bat""
         - type: shell
-          inputType: script
-          input: ""script3.sh""
+          inputType: batch
+          input: ""script3.bat""
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
-          - shell: ""script1.sh""
+        steps:
+          - shell: ""script1.bat""
           - shell:
-              inputType: script
-              input: ""script2.sh""
+              inputType: batch
+              input: ""script2.bat""
           - type: shell
-            inputType: script
-            input: ""script3.sh""
+            inputType: batch
+            input: ""script3.bat""
     ")]
     public void MultipleCommands_AsShellScripts_RunsAllCommandsSequentially(string yamlInput)
     {
@@ -171,15 +172,15 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         string outputFile = base.CreateFile("output.txt");
         
         base.CreateFile(
-            fileName: "script1.sh", 
+            fileName: "script1.bat", 
             content: $"echo '1' >> '{outputFile}'");
             
         base.CreateFile(
-            fileName: "script2.sh", 
+            fileName: "script2.bat", 
             content: $"echo '2' >> '{outputFile}'");
             
         base.CreateFile(
-            fileName: "script3.sh", 
+            fileName: "script3.bat", 
             content: $"echo '3' >> '{outputFile}'");
         
         // Act
@@ -194,24 +195,24 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
     
     [Theory]
     [InlineData(@"
-        - shell: ""script1.sh""
+        - shell: ""script1.bat""
         - shell:
-            inputType: command
+            inputType: batch
             input: ""echo '2' >> '{0}'""
         - type: shell
-          inputType: script
-          input: ""script3.sh""
+          inputType: batch
+          input: ""script3.bat""
     ")]
     [InlineData(@"
         date: 2021-09-01
         author: John Doe
-        tasks:
-          - shell: ""script1.sh""
+        steps:
+          - shell: ""script1.bat""
           - shell:
               input: ""echo '2' >> '{0}'""
           - type: shell
-            inputType: script
-            input: ""script3.sh""
+            inputType: batch
+            input: ""script3.bat""
     ")]
     public void MultipleCommands_AsMixOfShellScriptsAndInlineCommands_RunsAllCommandsSequentially(string yamlInput)
     {
@@ -219,11 +220,11 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         string outputFile = base.CreateFile("output.txt");
         
         base.CreateFile(
-            fileName: "script1.sh", 
+            fileName: "script1.bat", 
             content: $"echo '1' >> '{outputFile}'");
             
         base.CreateFile(
-            fileName: "script3.sh", 
+            fileName: "script3.bat", 
             content: $"echo '3' >> '{outputFile}'");
         
         string yamlCommand = string.Format(yamlInput, outputFile);
@@ -243,19 +244,19 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         - shell: ""echo '1' >> '{0}'""
         - shell:
             input: ""exit 1""
-            behavior: strict
+            onErrorBehavior: break
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '3' >> '{0}'""
     ")]
     [InlineData(@"
         - shell: ""echo '1' >> '{0}'""
         - shell:
-            inputType: command
+            inputType: batch
             input: ""cd /non-existent-random-folder_9204""
-            behavior: strict
+            onErrorBehavior: break
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '3' >> '{0}'""
     ")]
     public void MultipleCommands_WhenOneCommandWithDefaultBehaviorFails_ThrowsExceptionAndStopsExecution(
@@ -278,21 +279,21 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
     [InlineData(@"
         - shell: ""echo '1' >> '{0}'""
         - shell:
-            inputType: command
+            inputType: batch
             input: ""exit 1""
-            behavior: forgiving
+            onErrorBehavior: ignore
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '3' >> '{0}'""
     ")]
     [InlineData(@"
         - shell: ""echo '1' >> '{0}'""
         - shell:
-            inputType: command
+            inputType: batch
             input: ""cd /non-existent-random-folder_9204""
-            behavior: forgiving
+            onErrorBehavior: ignore
         - type: shell
-          inputType: command
+          inputType: batch
           input: ""echo '3' >> '{0}'""
     ")]
     public void MultipleCommands_WhenOneCommandWithRecoveryConfigurationFails_ContinuesExecution(
@@ -318,14 +319,14 @@ public class ShellCommandsTests : FileSystemDependentTestFixture
         // Arrange
         string expectedValue = Guid.NewGuid().ToString();
         string outputFile = base.CreateFile("output.txt");
-        string yamlCommand = @"
-            - shell: ""echo '1' >> '{output-file}'""
+        string yamlCommand = $@"
+            - shell: ""echo '1' >> '{{output-file}}'""
             - shell:
-                inputType: command
-                input: ""set SH_PERSISTED='{expected-key}'""
+                inputType: batch
+                input: ""echo {ShellTaskDefinition.ResultCaptureVarName}='{{expected-key}}'""
             - type: shell
-              inputType: command
-              input: ""echo '{expected-key}' >> '{output-file}'""
+              inputType: batch
+              input: ""echo '{{expected-key}}' >> '{{output-file}}'""
         ".Replace("{output-file}", outputFile).Replace("{expected-key}", expectedValue);
         
         // Act

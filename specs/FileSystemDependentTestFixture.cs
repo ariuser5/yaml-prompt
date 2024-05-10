@@ -1,21 +1,16 @@
-namespace YamlPrompt.Specs.ShellCommands;
+namespace YamlPrompt.Specs;
 
 public class FileSystemDependentTestFixture : IDisposable
 {
-	private const string tempDirName = "temp";
+	private const string tempDirSuffix = "yaml-prompt";
 	
     private readonly DirectoryInfo _tempDir;
 	
 	public FileSystemDependentTestFixture()
 	{
-		string workingDir = Directory.GetCurrentDirectory();
-		
-		_tempDir = new DirectoryInfo(Path.Combine(workingDir, tempDirName));
-		if (_tempDir.Exists)
-		{
-			_tempDir.Delete(true);
-		}
-		_tempDir.Create();
+		var tempDirPath = Path.GetTempPath() + tempDirSuffix;
+		var tempDirFileName = Guid.NewGuid().ToString();
+		_tempDir = Directory.CreateDirectory(Path.Combine(tempDirPath, tempDirFileName));
 	}
 
 	public virtual void Dispose()

@@ -1,4 +1,3 @@
-
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlPrompt.Model;
@@ -7,27 +6,58 @@ namespace YamlPrompt.Api.Serialization;
 
 public interface IAutomationScriptDeserializer
 {
-	AutomationScript DeserializeYaml(string yaml);
+	AutomationScript DeserializeYaml(string yaml, string[] knownTypes);
 }
 
 public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 {
-	public AutomationScript DeserializeYaml(string yaml)
+	public AutomationScript DeserializeYaml(string yaml, string[] knownTypes)
 	{
+		if (string.IsNullOrEmpty(yaml))
+			throw new ArgumentException("YAML is empty", nameof(yaml));
+		
+		var knownTypesSnapshot = knownTypes.ToArray();
+		
+		if (knownTypesSnapshot.Length != knownTypesSnapshot.Distinct().Count())
+			throw new ArgumentException("Duplicate known types", nameof(knownTypes));
+		
 		var deserializer = new DeserializerBuilder()
 			.WithNamingConvention(CamelCaseNamingConvention.Instance)
 			.Build();
 			
-		var deserialized = deserializer.Deserialize<Dictionary<string, object?>>(yaml);
+		var deserialized = DeserializeYaml(deserializer, yaml);
 		var headers = ExtractHeaders(deserialized)!;
 		var behavior = ExtractBehavior(deserialized);
-		var steps = ExtractSteps(deserialized);
+		var steps = ExtractSteps(deserialized, knownTypesSnapshot);
 		
 		return new AutomationScript()
 		{
 			Headers = headers,
 			Behavior = behavior,
 			Steps = steps
+		};
+	}
+	
+	private static Dictionary<string, object?> DeserializeYaml(
+		IDeserializer deserializer, 
+		string yaml)
+	{
+		bool isSequence = yaml.Trim().StartsWith('-');
+		
+		return isSequence
+			? DeserializeFromSequence(deserializer, yaml)
+			: deserializer.Deserialize<Dictionary<string, object?>>(yaml);
+	}
+	
+	private static Dictionary<string, object?> DeserializeFromSequence(
+		IDeserializer deserializer,
+		string yaml)
+	{
+		var tasks = deserializer.Deserialize<List<object>>(yaml);
+
+		return new Dictionary<string, object?>()
+		{
+			[AutomationScript.StepsFieldName] = tasks
 		};
 	}
 	
@@ -75,12 +105,14 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 		};
 	}
 	
-	private static List<AutomationStep> ExtractSteps(Dictionary<string, object?> deserialized)
+	private static List<AutomationStep> ExtractSteps(
+		Dictionary<string, object?> deserialized,
+		string[] knownTypes)
 	{
 		var hasSteps = deserialized.TryGetValue(AutomationScript.StepsFieldName, out object? steps);
 		
 		if (!hasSteps)
-			throw new InvalidDataException("Script is missing steps");
+			throw new InvalidDataException("Automation script is missing steps");
 		
 		if (steps is not List<object>)
 			throw new InvalidDataException("Steps is not a list");
@@ -91,23 +123,63 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 		
 		foreach (var step in stepsList)
 		{
-			var automationStep = ExtractStep((Dictionary<string, object?>)step);	
+			var automationStep = ExtractStep((Dictionary<object, object?>)step, knownTypes);	
 			automationSteps.Add(automationStep);
 		}
 		
 		return automationSteps;
 	}
 	
-	private static AutomationStep ExtractStep(Dictionary<string, object?> step)
+	private static AutomationStep ExtractStep(Dictionary<object, object?> step, string[] knownTypes)
 	{
 		var hasType = step.TryGetValue(AutomationScript.StepTypeFieldName, out object? type);
 		
-		if (!hasType)
-			throw new InvalidDataException("Step is missing the type field");
+		if (!hasType) {
+			if (step.Count == 1) {
+				var stepAlias = (string)step.Keys.First();
+				if (knownTypes.Contains(stepAlias)) {
+					return ExtractAliasedStep(stepAlias, step[stepAlias]);
+				}
+			}
+			
+			throw new InvalidDataException("Step is missing the 'type' field");
+		}
 		
 		if (type is not string)
 			throw new InvalidDataException("Unknown step data type");
 		
-		return new AutomationStep((string)type, step);
+		var mapping = step.ToDictionary(
+			entry => (string)entry.Key,
+			entry => entry.Value
+		);
+		
+		return new AutomationStep((string)type, mapping);
+	}
+	
+	private static AutomationStep ExtractAliasedStep(string alias, object? payload)
+	{
+		if (payload is Dictionary<object, object?> mapping) {
+			return new AutomationStep(
+				Type: alias, 
+				Payload: mapping.ToDictionary(w => (string)w.Key, w => w.Value)
+			);
+		} else if (payload is List<object?> items) {
+			return new AutomationStep(
+				Type: alias, 
+				Payload: new Dictionary<string, object?>() {{ alias, items.ToArray() }}
+			);
+		} else if (IsScalar(payload)) {
+			return new AutomationStep(
+				Type: alias, 
+				Payload: new Dictionary<string, object?>() {{ alias, payload }}
+			);
+		} else {
+			throw new InvalidDataException("Aliased step is not a mapping");
+		}
+	}
+	
+	private static bool IsScalar(object? obj)
+	{
+		return obj is string || obj is bool || obj is int || obj is float || obj is double;
 	}
 }

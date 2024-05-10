@@ -2,33 +2,28 @@
 using System.Text.RegularExpressions;
 using YamlPrompt.Model;
 
-namespace WinTasks;
+namespace WinTasks.Internals;
 
-public class ShellTaskDefinition : TaskDefinition<ShellTaskPayload>
+public class ShellTaskDefinitionBaseImpl<T>(
+    string taskAlias,
+    string shellExecutorFilePath,
+    IShellTaskPayloadMapper<T> payloadMapper
+) : TaskDefinitionBase<T>
+    where T: ShellTaskPayload
 {
-    public const string TaskKey = "shell";
-    public const string InputFieldName = "input";
-    public const string InputTypeFieldName = "inputType";
-    public const string ErrorHandlingFieldName = "continueOnError";
-    public const string ResultCaptureVarName = "SH_PASS_NEXT";
-    
-    public override string TypeKey => TaskKey;
-    
+    public override string TypeKey { get; } = taskAlias;
+    public string ShellExecutorFilePath { get; } = shellExecutorFilePath;
+    public IShellTaskPayloadMapper<T> PayloadMapper { get; } = payloadMapper;
+
     protected override string? Invoke(
         AutomationContext context,
-        ShellTaskPayload payload,
+        T payload,
         string? previousResult)
     {
         ProcessStartInfo startInfo = new()
         {
-            FileName = payload.InputType switch
-            {
-                ShellCommandType.Batch => "cmd.exe",
-                ShellCommandType.PowerShell => "powershell.exe",
-                ShellCommandType.Bash => "bash",
-                _ => throw new ArgumentException("Invalid input type.")
-            },
-            Arguments = payload.Input,
+            FileName = ShellExecutorFilePath,
+            Arguments = "/c " + payload.Command,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
@@ -51,7 +46,7 @@ public class ShellTaskDefinition : TaskDefinition<ShellTaskPayload>
             // Parse the output to extract the value of the environment variable
             // This assumes that the process writes the value of the environment variable
             // to its output in a specific format
-            string pattern = $@"^{ResultCaptureVarName}=(.*)$";
+            string pattern = $@"^{ShellTaskConstants.ResultCaptureVarName}=(.*)$";
             Match match = Regex.Match(output, pattern, RegexOptions.Multiline);
             if (match.Success) {
                 result = match.Groups[1].Value;
@@ -62,6 +57,11 @@ public class ShellTaskDefinition : TaskDefinition<ShellTaskPayload>
         process.WaitForExit();
         
         string error = process.StandardError.ReadToEnd();
+        int exitCode = process.ExitCode;
+        
+        error = (string.IsNullOrWhiteSpace(error) && exitCode != 0) 
+            ? $"Shell command exited with code {exitCode}."
+            : error;
         
         if (string.IsNullOrWhiteSpace(error) == false)
         {
@@ -76,36 +76,49 @@ public class ShellTaskDefinition : TaskDefinition<ShellTaskPayload>
         return result;
     }
     
-    public override ShellTaskPayload MapPayload( IReadOnlyDictionary<string, object?> fields)
+    public override T InterpretPayload(IReadOnlyDictionary<string, object?> fields)
     {
-        var input = ReadRequiredValueAsString(fields, InputFieldName);
+        var command = ReadRequiredValueAsString(
+            fields, 
+            fieldName: ShellTaskPayload.Fields.CommandFieldName, 
+            defaultFieldName: this.TypeKey);
         
-        ValidateInput(input);
+        ValidateCommand(command);
         
-        var inputType = ReadOptionalValueAsString(fields, InputTypeFieldName) is string stringInputType
-            ? Enum.Parse<ShellCommandType>(stringInputType, ignoreCase: true)
-            : default;
-        
-        var continueOnError = ReadOptionalValueAsString(fields, ErrorHandlingFieldName) is string stringErrorHandling
+        var continueOnError 
+            = ReadOptionalValueAsString(fields, ShellTaskPayload.Fields.ErrorHandlingFieldName)
+                is string stringErrorHandling
             && bool.Parse(stringErrorHandling);
         
-        return new ShellTaskPayload(input, inputType, continueOnError);
+        var shellPayload = new ShellTaskPayload(command, continueOnError);
+        
+        return PayloadMapper.Map(shellPayload, fields);
     }
     
-    private static void ValidateInput(string input)
+    private static void ValidateCommand(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-            throw new ArgumentException("Input cannot be empty.");
+            throw new ArgumentException("Command cannot be empty.");
     }
     
     private static string ReadRequiredValueAsString(
         IReadOnlyDictionary<string, object?> fields,
-        string fieldName)
+        string fieldName,
+        string defaultFieldName)
     {
-        if (fields.TryGetValue(fieldName, out object? value))
+        if (fields.TryGetValue(fieldName, out object? value)) {
             return CastFieldValueToStringOrThrow(fieldName, value);
+        } else if (fields.TryGetValue(defaultFieldName, out object? defaultValue)) {
+            if (defaultValue is string defaultValueAsString){
+                return defaultValueAsString;
+            } else {
+                throw new FormatException(
+                    $"Unsupported syntax for shell task '{defaultFieldName}' default value. " + 
+                    $"Expected 'string' but got '{defaultValue?.GetType().Name}'.");
+            }
+        }
         
-        throw new ArgumentException($"Missing required field '{fieldName}'");
+        throw new ArgumentException($"Missing required field '{fieldName}' for task '{defaultFieldName}'");
     }
     
     private static string? ReadOptionalValueAsString(

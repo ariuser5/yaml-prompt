@@ -1,7 +1,12 @@
 namespace WinTasks;
 
 public record ShellTaskPayload(
-    string Input,
-    ShellCommandType InputType,
+    string Command,
     bool ContinueOnError = false
-);
+) {
+    public static class Fields
+    {
+        public const string CommandFieldName = "command";
+        public const string ErrorHandlingFieldName = "continueOnError";
+    }
+}

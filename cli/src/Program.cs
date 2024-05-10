@@ -1,37 +1,41 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Reflection;
-using YamlPrompt.Cli;
+using YamlPrompt.Api;
+using YamlPrompt.Api.Serialization;
 using YamlPrompt.Model;
 
-// Load all command classes
-var commandTypes = Assembly.GetExecutingAssembly().GetTypes()
-	.Where(t => t.GetInterfaces().Contains(typeof(ITask)));
+const string yaml = @"
+date: today
+author: John doe
+steps:
+  - shell: 
+    - ""echo Hello, World!""
+";
 
-// Instantiate all command classes and store them in a dictionary
-var commands = new Dictionary<string, ITask>();
-foreach (var type in commandTypes)
+
+var deserializer = new AutomationScriptDeserializer();
+var definitions = new[] { new FakeShellTaskDefinition() };
+var automationScript = deserializer.DeserializeYaml(yaml, definitions.Select(d => d.TypeKey).ToArray());
+
+AutomationScript.Run(automationScript, definitions);
+
+class FakeShellTaskDefinition : TaskDefinitionBase<IReadOnlyDictionary<string, object?>>
 {
-	var command = Activator.CreateInstance(type) as ITask;
-	if (command != null)
-		commands.Add(command.TypeKey, command);
-}
+    public override string TypeKey => "shell";
 
-// Parse the YAML file and execute the commands
-var yamlCommands = Parser.ParseYaml("commands.yaml");
-ExecuteCommands(yamlCommands, commands);
+    public override IReadOnlyDictionary<string, object?> InterpretPayload(
+		IReadOnlyDictionary<string, object?> fields)
+    {
+        return fields;
+    }
 
-static void ExecuteCommands(Dictionary<string, string[]> yamlCommands, Dictionary<string, ITask> commands)
-{
-	foreach (var yamlCommand in yamlCommands)
-	{
-		if (commands.TryGetValue(yamlCommand.Key, out var command))
-		{
-			command.Execute(yamlCommand.Value);
-		}
-		else
-		{
-			Console.WriteLine($"Unknown command: {yamlCommand.Key}");
-		}
-	}
+    protected override string? Invoke(
+		AutomationContext context,
+		IReadOnlyDictionary<string,
+		object?> payload,
+		string? previousResult)
+    {
+        Console.WriteLine(payload["input"]);
+		    return "ABC";
+    }
 }

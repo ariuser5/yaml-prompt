@@ -2,6 +2,7 @@ using YamlPrompt.Specs.AppInterface;
 
 namespace YamlPrompt.Specs.InputFormat;
 
+[Trait("TestCategory", "Functional")]
 public class InputFormatTests
 {
 	private readonly AppTestingClient _app;

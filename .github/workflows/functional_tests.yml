@@ -28,7 +28,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build-artifacts
-        path: '**/bin/Release/net8.0/**/*'
+        path: |
+          **/api/**
+          **/model/**
+          **/specs/**
+          **/WinTasks/**
 
   test:
     needs: build
@@ -50,4 +54,4 @@ jobs:
         dotnet-version: '8.0'
 
     - name: Run tests
-      run: dotnet test --filter TestCategory=Functional --no-build
+      run: dotnet test --filter TestCategory=Functional --configuration Release --logger "console;verbosity=detailed" --no-build --no-restore

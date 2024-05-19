@@ -4,7 +4,6 @@ using YamlPrompt.Specs.AppInterface;
 namespace YamlPrompt.Specs.ShellBatch;
 
 [Trait("TestCategory", "Functional")]
-[Trait("Environment", "WinOS")]
 public class BatchScriptTests : FileSystemDependentTestFixture
 {
     private readonly AppTestingClient _app;

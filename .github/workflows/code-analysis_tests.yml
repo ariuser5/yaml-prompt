@@ -1,0 +1,25 @@
+name: Build and Run Code Analysis tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0'
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Run CodeAnalysis tests
+      run: dotnet test --filter TestCategory=CodeAnalysis --configuration Release --logger "console;verbosity=detailed" --no-build --no-restore

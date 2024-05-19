@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "yaml-prompt-dev-utils", "de
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "yaml-prompt-dev-rules", "development\dev-rules\yaml-prompt-dev-rules.csproj", "{D05B1E52-E324-49C5-87C0-E144A027F27B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dev-tests", "development\dev-tests\dev-tests.csproj", "{BAD04A70-5ACB-48F9-9500-A0DC3931C54B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{D05B1E52-E324-49C5-87C0-E144A027F27B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D05B1E52-E324-49C5-87C0-E144A027F27B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D05B1E52-E324-49C5-87C0-E144A027F27B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAD04A70-5ACB-48F9-9500-A0DC3931C54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD04A70-5ACB-48F9-9500-A0DC3931C54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD04A70-5ACB-48F9-9500-A0DC3931C54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD04A70-5ACB-48F9-9500-A0DC3931C54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{280C7E12-7910-42B3-8602-912103542482} = {9BE15BCB-7BF3-4766-9AAA-4F84685AED01}
 		{F19E676F-21B0-41BB-A0EC-CC90414AAABB} = {9BE15BCB-7BF3-4766-9AAA-4F84685AED01}
 		{D05B1E52-E324-49C5-87C0-E144A027F27B} = {9BE15BCB-7BF3-4766-9AAA-4F84685AED01}
+		{BAD04A70-5ACB-48F9-9500-A0DC3931C54B} = {9BE15BCB-7BF3-4766-9AAA-4F84685AED01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A0BF7EA-B2D8-42CB-B198-FDA02F72EC89}

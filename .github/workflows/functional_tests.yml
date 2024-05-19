@@ -18,11 +18,8 @@ jobs:
       with:
         dotnet-version: '8.0'
 
-    - name: Restore dependencies
-      run: dotnet restore
-
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2

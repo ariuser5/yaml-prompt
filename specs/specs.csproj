@@ -23,6 +23,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <PackageReference Include="YamlPrompt.Development.CodeAnalyzer" Version="1.0.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\api\src\yaml-prompt-api.csproj" />
     <ProjectReference Include="..\WinTasks\src\WinTasks.csproj" />

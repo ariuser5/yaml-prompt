@@ -10,7 +10,7 @@
 			"request": "launch",
 			"preLaunchTask": "build ysap",
 			"program": "${workspaceFolder}/cli/src/bin/Debug/net8.0/ysap.exe",
-			"args": ["${workspaceFolder}/cli/src/test.yaml"],
+			"args": ["${workspaceFolder}/cli/dev/test.yaml"],
 			"cwd": "${workspaceFolder}/cli/src/bin/Debug/net8.0/",
 			"stopAtEntry": false,
 			"console": "internalConsole"

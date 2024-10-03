@@ -1,0 +1,7 @@
+date: today
+author: John doe
+steps:
+  - def1: 
+    - "Hello, World!"
+  - type: def2
+    input: "This is def2"

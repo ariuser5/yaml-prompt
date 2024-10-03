@@ -112,25 +112,30 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 		var hasSteps = deserialized.TryGetValue(AutomationScript.StepsFieldName, out object? steps);
 		
 		if (!hasSteps)
-			throw new InvalidDataException("Automation script is missing steps");
+			throw new InvalidDataException("Automation script is missing 'steps' declaration");
 		
 		if (steps is not List<object>)
-			throw new InvalidDataException("Steps is not a list");
+			throw new InvalidDataException("Declaration 'steps' is not a list");
 		
 		var stepsList = (List<object>)steps;
 		
 		var automationSteps = new List<AutomationStep>();
 		
+		var index = 0;
 		foreach (var step in stepsList)
 		{
-			var automationStep = ExtractStep((Dictionary<object, object?>)step, knownTypes);	
+			var automationStep = ExtractStep((Dictionary<object, object?>)step, knownTypes, index);	
 			automationSteps.Add(automationStep);
+			index++;
 		}
 		
 		return automationSteps;
 	}
 	
-	private static AutomationStep ExtractStep(Dictionary<object, object?> step, string[] knownTypes)
+	private static AutomationStep ExtractStep(
+		Dictionary<object, object?> step,
+		string[] knownTypes,
+		int index)
 	{
 		var hasType = step.TryGetValue(AutomationScript.StepTypeFieldName, out object? type);
 		
@@ -142,7 +147,7 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 				}
 			}
 			
-			throw new InvalidDataException("Step is missing the 'type' field");
+			throw new InvalidDataException($"Step [{index}] is missing the 'type' field");
 		}
 		
 		if (type is not string)

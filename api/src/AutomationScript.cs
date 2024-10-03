@@ -27,17 +27,26 @@ public record AutomationScript
 		ITaskDefinition[] definitions,
 		AutomationStep[] steps)
 	{
-		return steps.Select(
-			step => {
-				ITaskDefinition? definition = definitions.FirstOrDefault(def => def.TypeKey == step.Type);
-				if (definition is not null) {
-					object? mappedPayload = InterpretStepPayload(definition, step);
-					return (definition, mappedPayload);
-				} else {
-					throw new InvalidOperationException($"No definition found for task type '{step.Type}'");
-				}
+		return steps.Select(step => {
+			ITaskDefinition? definition = FindTaskDefinition(definitions, step.Type);
+			if (definition is not null) {
+				object? mappedPayload = step.ContextualizePayload(definition);
+				return (definition, mappedPayload);
+			} else {
+				throw new InvalidOperationException($"No definition found for task type '{step.Type}'");
 			}
-		).ToArray();
+		}).ToArray();
+	}
+	
+	private static ITaskDefinition? FindTaskDefinition(
+		IEnumerable<ITaskDefinition> definitions,
+		string type)
+	{
+		try {
+			return definitions.SingleOrDefault(def => def.TypeKey == type);
+		} catch (InvalidOperationException) {
+			throw new InvalidOperationException($"Multiple task definitions found for type '{type}'");
+		}
 	}
 	
 	private static void RunPipeline(

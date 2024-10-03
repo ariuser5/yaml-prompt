@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build D:\\Projects\\Software\\yaml-prompt\\cli\\src\\cli.csproj",
+			"file": "D:\\Projects\\Software\\yaml-prompt\\cli\\src\\cli.csproj",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "build cli"
+		}
+	]
+}

@@ -1,23 +1,27 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿using System.CommandLine;
 using YamlPrompt.Api;
 using YamlPrompt.Api.Serialization;
 using YamlPrompt.Model;
 
-const string yaml = @"
-date: today
-author: John doe
-steps:
-  - shell: 
-    - ""echo Hello, World!""
-";
+var yamlFileArgument = new Argument<string>("yamlFile", description: "The YAML input string");
 
+var rootCommand = new RootCommand
+{
+    yamlFileArgument
+};
 
-var deserializer = new AutomationScriptDeserializer();
-var definitions = new[] { new FakeShellTaskDefinition() };
-var automationScript = deserializer.DeserializeYaml(yaml, definitions.Select(d => d.TypeKey).ToArray());
+rootCommand.Description = "YAML Prompt CLI";
+rootCommand.SetHandler(static (string yamlFile) =>
+{
+    var yamlInput = File.ReadAllText(yamlFile);
+    var deserializer = new AutomationScriptDeserializer();
+    var definitions = new[] { new FakeShellTaskDefinition() };
+    var automationScript = deserializer.DeserializeYaml(yamlInput, definitions.Select(d => d.TypeKey).ToArray());
 
-AutomationScript.Run(automationScript, definitions);
+    AutomationScript.Run(automationScript, definitions);
+}, yamlFileArgument);
+
+return await rootCommand.InvokeAsync(args);
 
 class FakeShellTaskDefinition : TaskDefinitionBase<IReadOnlyDictionary<string, object?>>
 {
@@ -35,7 +39,7 @@ class FakeShellTaskDefinition : TaskDefinitionBase<IReadOnlyDictionary<string, o
 		object?> payload,
 		string? previousResult)
     {
-        Console.WriteLine(payload["input"]);
+        Console.WriteLine(((object[])payload["shell"])[0]);
 		    return "ABC";
     }
 }

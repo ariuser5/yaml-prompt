@@ -1,0 +1,5 @@
+date: today
+author: John doe
+steps:
+  - shell: 
+    - "echo Hello, World!"

@@ -1,3 +1,6 @@
 {
-	"cmake.options.statusBarVisibility": "compact"
+	"cmake.options.statusBarVisibility": "compact",
+	"files.associations": {
+		"*.yaml": "home-assistant"
+	}
 }

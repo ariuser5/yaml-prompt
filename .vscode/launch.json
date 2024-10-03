@@ -5,13 +5,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run cli",
+			"name": "Debug ysap",
 			"type": "coreclr",
 			"request": "launch",
-			"preLaunchTask": "build cli",
-			"program": "${workspaceFolder}/cli/src/bin/Debug/net8.0/cli.exe",
-			"args": ["test.yaml"],
-			"cwd": "${workspaceFolder}/cli/src",
+			"preLaunchTask": "build ysap",
+			"program": "${workspaceFolder}/cli/src/bin/Debug/net8.0/ysap.exe",
+			"args": ["${workspaceFolder}/cli/src/test.yaml"],
+			"cwd": "${workspaceFolder}/cli/src/bin/Debug/net8.0/",
 			"stopAtEntry": false,
 			"console": "internalConsole"
 		}

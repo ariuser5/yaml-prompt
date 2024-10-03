@@ -2,12 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "build ysap",
 			"type": "dotnet",
-			"task": "build D:\\Projects\\Software\\yaml-prompt\\cli\\src\\cli.csproj",
-			"file": "D:\\Projects\\Software\\yaml-prompt\\cli\\src\\cli.csproj",
+			"task": "build ${workspaceFolder}\\cli\\src\\cli.csproj",
+			"file": "${workspaceFolder}\\cli\\src\\cli.csproj",
 			"group": "build",
 			"problemMatcher": [],
-			"label": "build cli"
 		}
 	]
 }

@@ -12,9 +12,9 @@ The following is an example of a YAML file that can be used as input to `ysap.ex
 ```yaml
 steps:
   - type: "PrintHello"
-	message: "Hello World!"
+    message: "Hello World!"
   - type: "PrintBye"
-	message: "Have a good day!"
+    message: "Have a good day!"
 ```
 
 The implementation of each task must be a class that implements the `YamlPrompt.Model.ITaskDefinition` interface and the class must then be assembled into a dll file that is placed in the "registry" subfolder where `ysap.exe` is located.

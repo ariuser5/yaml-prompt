@@ -1,7 +1,7 @@
 using System.Reflection;
 using YamlPrompt.Model;
 
-namespace YamlPrompt.Api.TaskDefinitions;
+namespace YamlPrompt.Core.TaskDefinitions;
 
 public interface ILoader
 {

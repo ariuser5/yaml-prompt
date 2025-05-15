@@ -1,4 +1,4 @@
-using YamlPrompt.Api.TaskDefinitions;
+using YamlPrompt.Core.TaskDefinitions;
 using YamlPrompt.Model;
 
 namespace YamlPrompt.Cli.Registry;

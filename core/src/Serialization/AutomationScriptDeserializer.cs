@@ -2,7 +2,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlPrompt.Model;
 
-namespace YamlPrompt.Api.Serialization;
+namespace YamlPrompt.Core.Serialization;
 
 public interface IAutomationScriptDeserializer
 {

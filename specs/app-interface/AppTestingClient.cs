@@ -1,5 +1,5 @@
-using YamlPrompt.Api;
-using YamlPrompt.Api.Serialization;
+using YamlPrompt.Core;
+using YamlPrompt.Core.Serialization;
 using YamlPrompt.Model;
 
 namespace YamlPrompt.Specs.AppInterface;

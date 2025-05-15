@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>YamlPrompt.Model</RootNamespace>
+    <AssemblyName>YamlPrompt.Model</AssemblyName>
   </PropertyGroup>
 
 </Project>

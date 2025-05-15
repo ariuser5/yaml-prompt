@@ -1,7 +1,6 @@
 ﻿using System.CommandLine;
-using System.Runtime.CompilerServices;
-using YamlPrompt.Api;
-using YamlPrompt.Api.Serialization;
+using YamlPrompt.Core;
+using YamlPrompt.Core.Serialization;
 using YamlPrompt.Cli.Registry;
 
 var yamlFileArgument = new Argument<string>("yamlFile", description: "The YAML input string");

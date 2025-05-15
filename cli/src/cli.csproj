@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\model\model.csproj" />
-    <ProjectReference Include="..\..\api\src\yaml-prompt-api.csproj" />
+    <ProjectReference Include="..\..\core\src\yaml-prompt-core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

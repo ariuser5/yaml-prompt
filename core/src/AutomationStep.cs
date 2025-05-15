@@ -1,6 +1,6 @@
 using YamlPrompt.Model;
 
-namespace YamlPrompt.Api;
+namespace YamlPrompt.Core;
 
 public record AutomationStep(
 	string Type,

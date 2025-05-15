@@ -9,7 +9,7 @@ The nuget package is not published in any public nuget feed. You can build the p
 2. Run the following command to build the nuget package:
 
 ```cmd / pwsh
-dotnet pack --configuration Release
+dotnet pack -p:NuspecFile=./<file-name>.nuspec --configuration Release
 ```
 
 3. The nuget package (.nupkg) will be created in the `bin\Release` directory.

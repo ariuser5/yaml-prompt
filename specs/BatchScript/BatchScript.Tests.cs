@@ -1,7 +1,7 @@
 using WinTasks;
 using YamlPrompt.Specs.AppInterface;
 
-namespace YamlPrompt.Specs.ShellBatch;
+namespace YamlPrompt.Specs.BatchScript;
 
 [Trait("TestCategory", "Functional")]
 public class BatchScriptTests : FileSystemDependentTestFixture

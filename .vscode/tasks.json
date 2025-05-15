@@ -8,6 +8,64 @@
 			"file": "${workspaceFolder}\\cli\\src\\cli.csproj",
 			"group": "build",
 			"problemMatcher": [],
+			"dependsOn": [
+				"deploy ysap-defs1",
+				"deploy ysap-defs2"
+			]
+		},
+		{
+			"label": "deploy ysap-defs1",
+			"type": "shell",
+			"command": "Copy-Item",
+			"args": [
+				"-Path",
+				"'${workspaceFolder}\\cli\\dev\\defs1\\bin\\Debug\\net8.0\\defs1.dll'",
+				"-Destination",
+				"'${workspaceFolder}\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
+				"-Force"
+			],
+			"dependsOn": [
+				"build ysap-defs1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "deploy ysap-defs2",
+			"type": "shell",
+			"command": "Copy-Item",
+			"args": [
+				"-Path",
+				"'${workspaceFolder}\\cli\\dev\\defs2\\bin\\Debug\\net8.0\\defs2.dll'",
+				"-Destination",
+				"'${workspaceFolder}\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
+				"-Force"
+			],
+			"dependsOn": [
+				"build ysap-defs2"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "build ysap-defs1",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"${workspaceFolder}\\cli\\dev\\defs1\\defs1.csproj",
+				"--configuration",
+				"Debug"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "build ysap-defs2",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"${workspaceFolder}\\cli\\dev\\defs2\\defs2.csproj",
+				"--configuration",
+				"Debug"
+			],
+			"problemMatcher": []
 		}
 	]
 }

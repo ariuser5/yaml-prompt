@@ -1,0 +1,7 @@
+date: today
+author: John doe
+steps:
+  - fwdref:
+    - "Hello, test!"
+  - type: echoref
+    suffix: "test-suffix - "

@@ -2,13 +2,14 @@ using System.Collections;
 
 namespace YamlPrompt.Model;
 
-public class AddOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> where TKey : notnull
+public class AppendOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> where TKey : notnull
 {
     private Dictionary<TKey, TValue> _dictionary = new();
 
     public TValue this[TKey key]
     {
         get { return _dictionary[key]; }
+        set { _dictionary[key] = value; }
     }
 
     public IEnumerable<TKey> Keys => _dictionary.Keys;

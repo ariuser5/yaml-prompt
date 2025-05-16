@@ -66,14 +66,8 @@ public record AutomationScript
 		string? lastResult = null;
 		
 		foreach (var (task, payload) in pipelineNodes) {
-			var flowController = new FlowController()
-			{
-				ExceptionHandling = (ex) => {
-					Console.WriteLine(ex.Message);
-					Console.WriteLine(ex.StackTrace);
-				}
-			};
-			
+			var flowController = new FlowController() { ExceptionHandling = HandleException };
+
 			try {
 				task.Execute(flowController, context, payload, lastResult);
 			} catch (Exception ex) {
@@ -87,21 +81,18 @@ public record AutomationScript
 			lastResult = flowController.ReturnValue;
 		}
 	}
-	
-	private static object? InterpretStepPayload(ITaskDefinition definition, AutomationStep step)
-	{
-		try {
-			return definition.InterpretPayload(step.Payload);
-		} catch(Exception ex) {
-			throw new InvalidOperationException($"Failed to interpret payload for task type '{step.Type}'", ex);
-		}
-	}
 
+	private static void HandleException(Exception ex)
+	{
+		Console.WriteLine(ex.Message);
+		Console.WriteLine(ex.StackTrace);
+	}
+	
     private class FlowController : IFlowController
-    {
-        public int ExitCode { get; set; } = 0;
-        public string? ReturnValue { get; set; } = null;
-        public bool AllowContinuationOnFailure { get; set; } = false;
-        public Action<Exception>? ExceptionHandling { get; set; }
-    }
+	{
+		public int ExitCode { get; set; } = 0;
+		public string? ReturnValue { get; set; } = null;
+		public bool AllowContinuationOnFailure { get; set; } = false;
+		public Action<Exception>? ExceptionHandling { get; set; }
+	}
 }

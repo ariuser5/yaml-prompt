@@ -32,8 +32,6 @@ public abstract class TaskDefinitionBase<T> : ITaskDefinition
                 throw;
             }
         }
-        
-        flowController.ExitCode = 0;
     }
 
     object? ITaskDefinition.InterpretPayload(

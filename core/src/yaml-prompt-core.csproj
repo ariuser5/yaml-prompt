@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\model\model.csproj" />
+    <ProjectReference Include="..\..\Conditionals.Model\src\yaml-prompt-conditionals-model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>YamlPrompt.Core</RootNamespace>
+    <AssemblyName>YamlPrompt.Core</AssemblyName>
   </PropertyGroup>
 
 </Project>

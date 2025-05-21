@@ -6,6 +6,7 @@ public interface IFlowController
 	// void Yield();
 	
 	int ExitCode { get; set;}
+	bool AbortRequested { get; set; }
 	string? ReturnValue { get; set; }
 	bool AllowContinuationOnFailure { get; set; }
 	Action<Exception>? ExceptionHandling { get; set; }

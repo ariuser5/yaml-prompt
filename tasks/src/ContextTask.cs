@@ -19,7 +19,7 @@ public class ContextTask : TaskDefinitionBase<Dictionary<string, object?>>
 			?? throw new ArgumentException($"Field '{Template.VariablesFieldName}' is required.");
 		
 		return vars.ToDictionary(
-			x => x.Key.ToString() ?? throw new ArgumentException($"Key '{x.Key}' is not a string."),
+			x => x.Key as string ?? throw new ArgumentException($"Key '{x.Key}' is not a string."),
 			x => x.Value);
 	}
 

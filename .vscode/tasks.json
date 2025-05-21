@@ -4,8 +4,8 @@
 		{
 			"label": "build ysap",
 			"type": "dotnet",
-			"task": "build ${workspaceFolder}\\cli\\src\\cli.csproj",
-			"file": "${workspaceFolder}\\cli\\src\\cli.csproj",
+			"task": "build ${workspaceFolder}\\asset\\cli\\src\\cli.csproj",
+			"file": "${workspaceFolder}\\asset\\cli\\src\\cli.csproj",
 			"group": "build",
 			"problemMatcher": [],
 			"dependsOn": [
@@ -19,9 +19,9 @@
 			"command": "Copy-Item",
 			"args": [
 				"-Path",
-				"'${workspaceFolder}\\cli\\dev\\defs1\\bin\\Debug\\net8.0\\defs1.dll'",
+				"'${workspaceFolder}\\asset\\cli\\dev\\defs1\\bin\\Debug\\net8.0\\defs1.dll'",
 				"-Destination",
-				"'${workspaceFolder}\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
+				"'${workspaceFolder}\\asset\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
 				"-Force"
 			],
 			"dependsOn": [
@@ -35,9 +35,9 @@
 			"command": "Copy-Item",
 			"args": [
 				"-Path",
-				"'${workspaceFolder}\\cli\\dev\\defs2\\bin\\Debug\\net8.0\\defs2.dll'",
+				"'${workspaceFolder}\\asset\\cli\\dev\\defs2\\bin\\Debug\\net8.0\\defs2.dll'",
 				"-Destination",
-				"'${workspaceFolder}\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
+				"'${workspaceFolder}\\asset\\cli\\src\\bin\\Debug\\net8.0\\registry\\'",
 				"-Force"
 			],
 			"dependsOn": [
@@ -50,7 +50,7 @@
 			"command": "dotnet",
 			"args": [
 				"build",
-				"${workspaceFolder}\\cli\\dev\\defs1\\defs1.csproj",
+				"${workspaceFolder}\\asset\\cli\\dev\\defs1\\defs1.csproj",
 				"--configuration",
 				"Debug"
 			],
@@ -61,7 +61,7 @@
 			"command": "dotnet",
 			"args": [
 				"build",
-				"${workspaceFolder}\\cli\\dev\\defs2\\defs2.csproj",
+				"${workspaceFolder}\\asset\\cli\\dev\\defs2\\defs2.csproj",
 				"--configuration",
 				"Debug"
 			],

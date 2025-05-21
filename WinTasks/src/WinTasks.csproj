@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\model\model.csproj" />
+    <ProjectReference Include="..\..\asset\model\model.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

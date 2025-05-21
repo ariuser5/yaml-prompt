@@ -9,9 +9,9 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build ysap",
-			"program": "${workspaceFolder}/cli/src/bin/Debug/net8.0/ysap.exe",
-			"args": ["${workspaceFolder}/cli/dev/test.yaml"],
-			"cwd": "${workspaceFolder}/cli/src/bin/Debug/net8.0/",
+			"program": "${workspaceFolder}/asset/cli/src/bin/Debug/net8.0/ysap.exe",
+			"args": ["${workspaceFolder}/asset/cli/dev/test.yaml"],
+			"cwd": "${workspaceFolder}/asset/cli/src/bin/Debug/net8.0/",
 			"stopAtEntry": false,
 			"console": "internalConsole"
 		}

@@ -5,9 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\model\model.csproj" />
+    <ProjectReference Include="..\..\..\asset\model\model.csproj" />
   </ItemGroup>
 
 </Project>

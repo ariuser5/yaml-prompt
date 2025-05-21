@@ -12,7 +12,7 @@ public class DelayTaskTests
         var task = new DelayTask();
         var fields = new Dictionary<string, object?> { { DelayTask.Template.TypeKey, 100 } };
         var result = task.InterpretPayload(fields);
-        Assert.Equal(100, result);
+        Assert.Equal("100", result);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class DelayTaskTests
         int delayMs = 200;
         var sw = Stopwatch.StartNew();
         var flowController = new TestFlowController();
-        task.Execute(flowController, context, delayMs, null);
+        task.Execute(flowController, context, delayMs.ToString(), null);
         sw.Stop();
         Assert.InRange(sw.ElapsedMilliseconds, delayMs - 30, delayMs + 150);
     }

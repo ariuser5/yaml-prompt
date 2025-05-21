@@ -13,12 +13,8 @@ public class DelayTask : TaskDefinitionBase<string>
 
 	public override string InterpretPayload(IReadOnlyDictionary<string, object?> fields)
 	{
-		var input = fields[Template.TypeKey] as string
+		return fields[Template.TypeKey] as string
 			?? throw new ArgumentException($"Field '{Template.TypeKey}' is required.");
-		
-		return !int.TryParse(input, out var _)
-			? ScriptHelper
-			: input;
 	}
 
 	protected override string? Invoke(

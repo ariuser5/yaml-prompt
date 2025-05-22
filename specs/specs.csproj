@@ -30,7 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\asset\core\src\core.csproj" />
     <ProjectReference Include="..\WinTasks\src\WinTasks.csproj" />
-    <ProjectReference Include="..\asset\tasks\src\yaml-prompt-tasks.csproj" />
+    <ProjectReference Include="..\asset\tasks\src\tasks.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\model\model.csproj" />
+    <ProjectReference Include="..\..\extension-sdk\src\extension-sdk.csproj" />
     <ProjectReference Include="..\..\Conditionals.Model\src\yaml-prompt-conditionals-model.csproj" />
   </ItemGroup>
   

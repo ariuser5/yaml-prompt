@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\extension-sdk\src\extension-sdk.csproj" />
-    <ProjectReference Include="..\..\core\src\yaml-prompt-core.csproj" />
+    <ProjectReference Include="..\..\core\src\core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model", "asset\model\model.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conditionals.Model", "Conditionals.Model", "{F160CD28-98C4-4BB8-99DB-FD71A60EEFF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-conditionals-model", "Conditionals.Model\src\yaml-prompt-conditionals-model.csproj", "{BEB81D4F-C054-493B-B333-3C43ECA52AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-conditionals-model", "asset\Conditionals.Model\src\yaml-prompt-conditionals-model.csproj", "{BEB81D4F-C054-493B-B333-3C43ECA52AB4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "development", "development", "{C753B50C-8608-4009-B49A-068DF751C578}"
 EndProject
@@ -30,17 +30,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-dev-utils", "de
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripting.Core", "Scripting.Core", "{11721095-A34E-46D1-B43F-D20C81DC01C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-scripting-core", "Scripting.Core\src\yaml-prompt-scripting-core.csproj", "{F697E65B-4F5D-4813-9135-B99D4AE692E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-scripting-core", "asset\Scripting.Core\src\yaml-prompt-scripting-core.csproj", "{F697E65B-4F5D-4813-9135-B99D4AE692E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-scripting-core.tests", "Scripting.Core\tests\yaml-prompt-scripting-core.tests.csproj", "{06A83264-3471-444F-B5EE-626A9B5F7FD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-scripting-core.tests", "asset\Scripting.Core\tests\yaml-prompt-scripting-core.tests.csproj", "{06A83264-3471-444F-B5EE-626A9B5F7FD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "specs", "specs\specs.csproj", "{5FB4E3B4-4769-4EAF-AC68-978E554627FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tasks", "tasks", "{C9099D61-E977-4DBA-AC6A-7AE6089BCD2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-tasks", "tasks\src\yaml-prompt-tasks.csproj", "{B55592AE-1885-4C6A-8DEC-CAEEEF00292F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-tasks", "asset\tasks\src\yaml-prompt-tasks.csproj", "{B55592AE-1885-4C6A-8DEC-CAEEEF00292F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-tasks.tests", "tasks\tests\yaml-prompt-tasks.tests.csproj", "{5F61EA45-E2C6-45C6-8B99-5EF64A907410}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-tasks.tests", "asset\tasks\tests\yaml-prompt-tasks.tests.csproj", "{5F61EA45-E2C6-45C6-8B99-5EF64A907410}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinTasks", "WinTasks", "{CCCD21B2-AF90-4FB8-AFA8-5E426FC038D7}"
 EndProject

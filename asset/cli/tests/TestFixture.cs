@@ -1,5 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using YamlPrompt.ExtensionSdk;
 using YamlPrompt.Model;
 
 namespace YamlPrompt.Cli.Tests;
@@ -56,6 +57,7 @@ public class TestFixture : IAsyncLifetime
 			MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
 			MetadataReference.CreateFromFile(typeof(Console).Assembly.Location),
 			MetadataReference.CreateFromFile(typeof(ITaskDefinition).Assembly.Location),
+			MetadataReference.CreateFromFile(typeof(TaskDefinitionBase).Assembly.Location),
 			MetadataReference.CreateFromFile(typeof(IReadOnlyDictionary<,>).Assembly.Location),
 			MetadataReference.CreateFromFile(Path.Combine(runtimeDir, "System.Runtime.dll")),
         	MetadataReference.CreateFromFile(Path.Combine(runtimeDir, "netstandard.dll")),

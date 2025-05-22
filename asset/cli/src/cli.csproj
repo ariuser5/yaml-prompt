@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\model\model.csproj" />
+    <ProjectReference Include="..\..\extension-sdk\src\extension-sdk.csproj" />
     <ProjectReference Include="..\..\core\src\yaml-prompt-core.csproj" />
   </ItemGroup>
 

@@ -1,3 +1,4 @@
+using YamlPrompt.ExtensionSdk;
 using YamlPrompt.Model;
 
 namespace YamlPrompt.Specs;

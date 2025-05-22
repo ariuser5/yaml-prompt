@@ -4,7 +4,7 @@ namespace YamlPrompt.Model;
 
 public class AddOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> where TKey : notnull
 {
-    private Dictionary<TKey, TValue> _dictionary = [];
+    private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
     public TValue this[TKey key]
     {

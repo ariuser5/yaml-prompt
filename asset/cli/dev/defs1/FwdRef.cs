@@ -1,4 +1,5 @@
 ﻿using YamlPrompt.Model;
+using YamlPrompt.ExtensionSdk;
 
 namespace defs1;
 public class FwdRef : TaskDefinitionBase

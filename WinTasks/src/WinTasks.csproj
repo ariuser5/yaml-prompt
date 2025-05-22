@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\asset\model\model.csproj" />
+    <ProjectReference Include="..\..\asset\extension-sdk\src\extension-sdk.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

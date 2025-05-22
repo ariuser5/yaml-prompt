@@ -3,6 +3,7 @@
 // Don't remove explicit using statements, they are needed for the code to compile
 using System;
 using System.Collections.Generic;
+using YamlPrompt.ExtensionSdk;
 using YamlPrompt.Model;
 
 namespace YamlPrompt.Cli.Tests;

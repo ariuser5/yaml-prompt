@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using YamlPrompt.ExtensionSdk;
 using YamlPrompt.Model;
 
 namespace WinTasks.Internals;

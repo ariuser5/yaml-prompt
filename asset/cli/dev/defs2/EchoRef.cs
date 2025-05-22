@@ -1,4 +1,5 @@
 ﻿using YamlPrompt.Model;
+using YamlPrompt.ExtensionSdk;
 
 namespace defs2;
 public class EchoRef : TaskDefinitionBase

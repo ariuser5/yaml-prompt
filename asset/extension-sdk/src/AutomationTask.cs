@@ -1,4 +1,6 @@
-namespace YamlPrompt.Model;
+using YamlPrompt.Model;
+
+namespace YamlPrompt.ExtensionSdk;
 
 public abstract class AutomationTask<TIn, TOut>
 {
@@ -8,15 +10,15 @@ public abstract class AutomationTask<TIn, TOut>
 		return new AutomationTaskImpl(handler);
 	}
 
-    public abstract TOut Execute(AutomationContext context, TIn persistedValue, string[] parameters);
-	
+	public abstract TOut Execute(AutomationContext context, TIn persistedValue, string[] parameters);
+
 	public static implicit operator AutomationTask<TIn, TOut>(Func<AutomationContext, TIn, string[], TOut> handler)
 	{
 		return Create(handler);
 	}
-	
+
 	private class AutomationTaskImpl : AutomationTask<TIn, TOut>
-	{	
+	{
 		private readonly Func<AutomationContext, TIn, string[], TOut> _handler;
 
 		public AutomationTaskImpl(Func<AutomationContext, TIn, string[], TOut> handler)
@@ -27,6 +29,6 @@ public abstract class AutomationTask<TIn, TOut>
 		public override TOut Execute(AutomationContext context, TIn persistedValue, string[] parameters)
 		{
 			return _handler(context, persistedValue, parameters);
-		}	
+		}
 	}
 }

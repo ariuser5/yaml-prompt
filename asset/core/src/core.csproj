@@ -12,7 +12,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>YamlPrompt.Core</RootNamespace>
+		<RootNamespace>YamlPrompt.Core</RootNamespace>
+		<AssemblyName>YamlPrompt.Core</AssemblyName>
   </PropertyGroup>
 
 </Project>

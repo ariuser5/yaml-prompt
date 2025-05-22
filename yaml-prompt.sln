@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "defs2", "asset\cli\dev\defs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{7BC0E798-A4E4-4E57-B6D7-DA097721CD39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yaml-prompt-core", "asset\core\src\yaml-prompt-core.csproj", "{9B5D99DF-7C15-4AE3-9B41-329A79D22243}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "asset\core\src\core.csproj", "{9B5D99DF-7C15-4AE3-9B41-329A79D22243}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model", "asset\model\model.csproj", "{DDD68024-6808-41AA-91B9-5678E0F9548F}"
 EndProject

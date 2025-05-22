@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\asset\core\src\yaml-prompt-core.csproj" />
+    <ProjectReference Include="..\asset\core\src\core.csproj" />
     <ProjectReference Include="..\WinTasks\src\WinTasks.csproj" />
   </ItemGroup>
 

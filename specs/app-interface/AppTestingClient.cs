@@ -8,7 +8,7 @@ public class AppTestingClient
 {
 	public List<ITaskDefinition> TaskDefinitions { get; set; } = [];
 	
-	public virtual void Execute(string yaml)
+	public virtual int Execute(string yaml)
 	{
 		var deserializer = new AutomationScriptDeserializer();
 		var taskDefinitions = TaskDefinitions.ToArray();
@@ -16,6 +16,6 @@ public class AppTestingClient
 			yaml, 
 			knownTypes: taskDefinitions.Select(d => d.TypeKey).ToArray());
 
-		AutomationScript.Run(automationScript, taskDefinitions);
+		return AutomationScript.Run(automationScript, taskDefinitions);
 	}
 }

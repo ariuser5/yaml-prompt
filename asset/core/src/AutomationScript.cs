@@ -12,7 +12,7 @@ public record AutomationScript
 	public AutomationBehavior? Behavior { get; init; } = null;
 	public List<AutomationStep> Steps { get; init; } = [];
 	
-	public static void Run(AutomationScript instance, IEnumerable<ITaskDefinition> definitions)
+	public static int Run(AutomationScript instance, IEnumerable<ITaskDefinition> definitions)
 	{
 		var definitionsSnapshot = definitions.ToArray();
 		var headersSnapshot = instance.Headers.ToDictionary(entry => entry.Key, entry => entry.Value);
@@ -20,7 +20,7 @@ public record AutomationScript
 		var stepsSnapshot = instance.Steps.ToArray();
 		
 		var pipelineNodes = CreatePipeline(definitionsSnapshot, stepsSnapshot);
-        RunPipeline(pipelineNodes, headersSnapshot, behaviorSnapshot);
+        return RunPipeline(pipelineNodes, headersSnapshot, behaviorSnapshot);
 	}
 	
 	private static (ITaskDefinition task, object? payload)[] CreatePipeline(
@@ -48,10 +48,10 @@ public record AutomationScript
 			throw new InvalidOperationException($"Multiple task definitions found for type '{type}'");
 		}
 	}
-	
-	private static void RunPipeline(
+
+	private static int RunPipeline(
 		IEnumerable<(
-			ITaskDefinition task, 
+			ITaskDefinition task,
 			object? payload
 		)> pipelineNodes,
 		IReadOnlyDictionary<string, object?> headers,
@@ -62,46 +62,54 @@ public record AutomationScript
 			Headers = headers.ToDictionary(entry => entry.Key, entry => entry.Value?.ToString() ?? ""),
 			Behavior = behavior,
 		};
-		
+
 		string? lastResult = null;
-		
-		foreach (var (task, payload) in pipelineNodes) {
+		int exitCode = 0;
+
+		foreach (var (task, payload) in pipelineNodes)
+		{
 			var flowController = new FlowController()
 			{
-				ExceptionHandling = (ex) => {
-					Console.WriteLine(ex.Message);
-					Console.WriteLine(ex.StackTrace);
-				}
+				ExceptionHandling = HandleException,
+				ExitCode = exitCode,
 			};
-			
-			try {
+
+			try
+			{
 				task.Execute(flowController, context, payload, lastResult);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
+				exitCode = 1;
 				flowController.ExceptionHandling.Invoke(ex);
 			}
-			
-			if (flowController.ExitCode != 0) {
-				if (flowController.AllowContinuationOnFailure is false) break;
+
+			if (flowController.ExitCode != 0 &&
+				flowController.AllowContinuationOnFailure is false)
+			{
+				break;
 			}
-			
+
+			if (flowController.AbortRequested) break;
+
 			lastResult = flowController.ReturnValue;
 		}
-	}
-	
-	private static object? InterpretStepPayload(ITaskDefinition definition, AutomationStep step)
-	{
-		try {
-			return definition.InterpretPayload(step.Payload);
-		} catch(Exception ex) {
-			throw new InvalidOperationException($"Failed to interpret payload for task type '{step.Type}'", ex);
-		}
+		
+		return exitCode;
 	}
 
+	private static void HandleException(Exception ex)
+	{
+		Console.WriteLine(ex.Message);
+		Console.WriteLine(ex.StackTrace);
+	}
+	
     private class FlowController : IFlowController
-    {
-        public int ExitCode { get; set; } = 0;
-        public string? ReturnValue { get; set; } = null;
-        public bool AllowContinuationOnFailure { get; set; } = false;
-        public Action<Exception>? ExceptionHandling { get; set; }
-    }
+	{
+		public int ExitCode { get; set; } = 0;
+		public bool AbortRequested { get; set; }
+		public string? ReturnValue { get; set; } = null;
+		public bool AllowContinuationOnFailure { get; set; } = false;
+		public Action<Exception>? ExceptionHandling { get; set; }
+	}
 }

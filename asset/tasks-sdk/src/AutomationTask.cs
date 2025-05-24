@@ -1,6 +1,6 @@
 using YamlPrompt.Model;
 
-namespace YamlPrompt.ExtensionSdk;
+namespace YamlPrompt.Tasks.Sdk;
 
 public abstract class AutomationTask<TIn, TOut>
 {

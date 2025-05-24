@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\extension-sdk\src\extension-sdk.csproj" />
+    <!-- NOTE: This reference to the tasks-sdk project is just to ensure that this
+               dll will be copied in the output directory. -->
+    <ProjectReference Include="..\..\tasks-sdk\src\tasks-sdk.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -12,8 +14,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-		<RootNamespace>YamlPrompt.Core</RootNamespace>
-		<AssemblyName>YamlPrompt.Core</AssemblyName>
+    <RootNamespace>YamlPrompt.Core</RootNamespace>
+    <AssemblyName>YamlPrompt.Core</AssemblyName>
   </PropertyGroup>
 
 </Project>

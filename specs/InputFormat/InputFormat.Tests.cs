@@ -55,4 +55,35 @@ public class InputFormatTests
 		// Assert
 		Assert.Equal(expectedLines, actualLines);	
 	}
+
+	[Theory]
+	[InlineData("""
+		steps:
+		  - type: TestShell
+		    input: |
+		      {{
+		        == 1 &&
+		        2 > 1 &&
+		        "hello".ToUpper() == "HELLO"
+		      }}
+		""")]
+	[InlineData("""
+		steps:
+		  - type: TestShell
+		    input: |
+		      {{
+		        var a = 5;
+		        var b = 10;
+		        a < b && b - a == 5
+		      }}
+		""")]
+	public void InputFormat_MultilineScriptExpression_Executes(string inputSource)
+	{
+		var yamlCommand = inputSource;
+		var actualLines = new List<string>();
+		var fakeShellTask = new FakeTaskDefinition(actualLines.Add);
+		_app.TaskDefinitions.Add(fakeShellTask);
+		var exitCode = _app.Execute(yamlCommand);
+		Assert.Equal(0, exitCode);
+    }
 }

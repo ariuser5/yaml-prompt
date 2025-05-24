@@ -6,8 +6,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>YamlPrompt.ExtensionSdk</RootNamespace>
-    <AssemblyName>YamlPrompt.ExtensionSdk</AssemblyName>
+    <RootNamespace>YamlPrompt.Tasks.Sdk</RootNamespace>
+    <AssemblyName>YamlPrompt.Tasks.Sdk</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

@@ -1,3 +1,5 @@
+using YamlPrompt.Shared.Collections;
+
 namespace YamlPrompt.Model;
 
 public class AutomationContext

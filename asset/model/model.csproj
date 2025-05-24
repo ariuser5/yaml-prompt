@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,5 +6,9 @@
     <RootNamespace>YamlPrompt.Model</RootNamespace>
     <AssemblyName>YamlPrompt.Model</AssemblyName>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\shared\src\shared.csproj" />
+  </ItemGroup>
 
 </Project>

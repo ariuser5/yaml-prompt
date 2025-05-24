@@ -11,11 +11,26 @@ The following is an example of a YAML file that can be used as input to `ysap.ex
 
 ```yaml
 steps:
-  - type: "PrintHello"
-    message: "Hello World!"
-  - type: "PrintBye"
-    message: "Have a good day!"
+  - type: context
+    variables:
+      start: "{{ DateTime.UtcNow() }}"
+      delay: 150
+  - delay: "{{ delay }}"
+  - type: assert
+    condition: "{{ DateTime.UtcNow() > start }}"
+  - type: context
+    variables:
+      url: !!uri "https://example.com"
+      id: !!guid "e4eaaaf2-d142-11e1-b3e4-080027620cdd"
+  - type: assert
+    condition: "{{ url.Host == \"example.com\" && id != null }}"
 ```
+
+This example demonstrates:
+- Using scripting expressions for variables and conditions
+- Direct variable access in scripts (e.g., `delay`, `start`)
+- Support for explicit URI and GUID types using YAML tags (`!!uri`, `!!guid`)
+- Asserting on properties of complex types
 
 The implementation of each task must be a class that implements the `YamlPrompt.Model.ITaskDefinition` interface and the class must then be assembled into a dll file that is placed in the "registry" subfolder where `ysap.exe` is located.
 (this is a temporary solution until a more sophisticated way of loading assemblies is implemented)

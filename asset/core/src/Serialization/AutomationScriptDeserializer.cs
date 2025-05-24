@@ -21,7 +21,9 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 		if (knownTypesSnapshot.Length != knownTypesSnapshot.Distinct().Count())
 			throw new ArgumentException("Duplicate known types", nameof(knownTypes));
 		
+		var converter = new ObjectYamlValueTypeConverter();
 		var deserializer = new DeserializerBuilder()
+			.WithTypeConverter(converter)
 			.WithNamingConvention(CamelCaseNamingConvention.Instance)
 			.Build();
 			
@@ -185,6 +187,14 @@ public class AutomationScriptDeserializer : IAutomationScriptDeserializer
 	
 	private static bool IsScalar(object? obj)
 	{
-		return obj is string || obj is bool || obj is int || obj is float || obj is double;
+		return obj is string
+			|| obj is bool
+			|| obj is int
+			|| obj is float
+			|| obj is double
+			|| obj is decimal
+			|| obj is DateTime
+			|| obj is DateTimeOffset
+			|| obj is TimeSpan;
 	}
 }

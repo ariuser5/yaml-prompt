@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\extension-sdk\src\extension-sdk.csproj" />
+    <ProjectReference Include="..\..\tasks-sdk\src\tasks-sdk.csproj" />
     <ProjectReference Include="..\..\core\src\core.csproj" />
   </ItemGroup>
 

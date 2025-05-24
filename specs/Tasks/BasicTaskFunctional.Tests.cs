@@ -1,6 +1,6 @@
 using YamlPrompt.Specs.AppInterface;
-using YamlPrompt.Tasks;
-using YamlPrompt.Tasks.Conditionals;
+using YamlPrompt.Tasks.Builtins;
+using YamlPrompt.Tasks.Builtins.Conditionals;
 
 namespace YamlPrompt.Specs.Tasks;
 
@@ -43,11 +43,11 @@ public class BasicTaskFunctionalSpecs
 	}
 
 	[Theory]
-	[InlineData("1 == 1")]
-	[InlineData("true")]
-	[InlineData("false")]
-	[InlineData("1 < 2")]
-	[InlineData("1 > 2")]
+	[InlineData("{{ 1 == 1 }}")]
+	[InlineData("{{ true }}")]
+	[InlineData("{{ false }}")]
+	[InlineData("{{ 1 < 2 }}")]
+	[InlineData("{{ 1 > 2 }}")]
 	public void AssertTask_DoesntBreak_WhenEvaluatingCondition(string condition)
 	{
 		var client = new AppTestingClient
@@ -56,7 +56,7 @@ public class BasicTaskFunctionalSpecs
 		};
 		string yaml = $"""
 			- type: assert
-			  condition: {condition}
+			  condition: "{condition}"
 			""";
 		var exitCode = client.Execute(yaml);
 		Assert.Equal(0, exitCode);

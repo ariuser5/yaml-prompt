@@ -1,6 +1,6 @@
 using YamlPrompt.Specs.AppInterface;
-using YamlPrompt.Tasks;
-using YamlPrompt.Tasks.Conditionals;
+using YamlPrompt.Tasks.Builtins;
+using YamlPrompt.Tasks.Builtins.Conditionals;
 
 namespace YamlPrompt.Specs.Tasks;
 
@@ -19,9 +19,9 @@ public class BasicFlowsSpecs
 			  variables:
 			    start: "{{ DateTime.UtcNow() }}"
 			    delay: 150
-			- delay: delay
+			- delay: '{{ delay }}'
 			- type: assert
-			  condition: DateTime.UtcNow() > DateTime.Parse(start)
+			  condition: '{{ DateTime.UtcNow() > start }}'
 			""";
 		var exitCode = client.Execute(yaml);
 		Assert.Equal(0, exitCode);
@@ -38,9 +38,9 @@ public class BasicFlowsSpecs
 			- type: context
 			  variables:
 			    delay: 200
-			- delay: context.items[\"delay\"]
+			- delay: '{{ delay }}'
 			- type: assert
-			  condition: delay == 200
+			  condition: '{{ delay == 200 }}'
 			""";
 		var exitCode = client.Execute(yaml);
 		Assert.Equal(0, exitCode);

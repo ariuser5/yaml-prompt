@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\asset\extension-sdk\src\extension-sdk.csproj" />
+    <ProjectReference Include="..\..\asset\tasks-sdk\src\tasks-sdk.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

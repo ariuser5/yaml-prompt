@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using YamlPrompt.ExtensionSdk;
+using YamlPrompt.Tasks.Sdk;
 using YamlPrompt.Model;
 
 namespace WinTasks.Internals;
@@ -85,13 +85,11 @@ public class ShellTaskDefinitionBaseImpl<T>(
             defaultFieldName: this.TypeKey);
         
         ValidateCommand(command);
-        
-        var continueOnError 
-            = ReadOptionalValueAsString(fields, ShellTaskPayload.Fields.ErrorHandlingFieldName)
-                is string stringErrorHandling
-            && bool.Parse(stringErrorHandling);
-        
-        var shellPayload = new ShellTaskPayload(command, continueOnError);
+
+        var continueOnError = ReadOptionalValueAsBoolean(fields, ShellTaskPayload.Fields.ErrorHandlingFieldName);
+        var shellPayload = new ShellTaskPayload(
+            command, 
+            ContinueOnError: continueOnError ?? false);
         
         return PayloadMapper.Map(shellPayload, fields);
     }
@@ -122,12 +120,23 @@ public class ShellTaskDefinitionBaseImpl<T>(
         throw new ArgumentException($"Missing required field '{fieldName}' for task '{defaultFieldName}'");
     }
     
-    private static string? ReadOptionalValueAsString(
+    private static bool? ReadOptionalValueAsBoolean(
         IReadOnlyDictionary<string, object?> fields,
         string fieldName)
     {
         if (fields.TryGetValue(fieldName, out object? value))
-            return CastFieldValueToStringOrThrow(fieldName, value);
+        {
+            if (value is string strValue &&
+                bool.TryParse(strValue, out bool boolValue))
+                return boolValue;
+            
+            if (value is bool valueAsBoolean)
+                return valueAsBoolean;
+                
+            throw new ArgumentException(
+                $"Invalid data type for field '{fieldName}'. " +
+                $"Expected 'string' or 'bool' but got '{value?.GetType().Name}'.");
+        }
         
         return null;
     }
